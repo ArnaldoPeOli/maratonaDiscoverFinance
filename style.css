@@ -1,6 +1,9 @@
 /* Global================dev.finance$==================================*/
 :root {
-  --dark-blue: #363f5f
+  --dark-blue: #363f5f;
+  --green: #49AA26;
+  --ligth-green: #3dd705;
+  --red: #e92929;
 }
 
 
@@ -13,11 +16,31 @@
   /* box-sizin == medida da caixa e border-box == rezetar a caixa */
 }
 
+html {
+  font-size: 93.75%;
+  /* 93.75% é igual a 15pix sendo que 100% equivalem a 16pix (fonte padrão do navegador) ( regra de três (100*15)/16 = 93.75% */
+
+}
+
 body {
   background: #adb3bb;
   /* cor de fundo*/
   font-family: 'Roboto', sans-serif
     /* Roboto == fonte extraida do Google-Fontes, já o sans-serif está dizendo que senão achar a fonte Roboto é par aplicar o san-serif == uma fonte lisa sem aqueles detalhas no fial de cada letra, aqueles risquinhos no final de cada letra */
+}
+
+.sr-only {
+  position: absolute;
+  /* alteração Maratona 1 na aula 2 para tornar invisível os nomes do cabaçalho Balanço e Transações*/
+  width: 1px;
+  /* esses elementos abaixo são truques do CSS PARA camuflar invisibilisar elementos sem prejudicar a arquitetura do projeto - mantem visível para os leitores de tela fica invisível apenas pra nós */
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }
 
 .container {
@@ -34,6 +57,65 @@ h2 {
   color: var(--dark-blue);
   font-weight: normal;
 }
+
+/*Links & Buttons==================================*/
+a {
+  color: var(--green);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--green);
+}
+
+button {
+  width: 100%;
+  height: 50px;
+
+  border: none;
+
+  color: white;
+  background: var(--green);
+
+  padding: 0;
+
+  border-radius: 0.25rem;
+
+  cursor: poiter;
+  /* passou o mouser em cima aparece a mãozinha no cursor */
+}
+
+button:hover {
+  background: var var(--ligth-green);
+}
+
+
+.button.new {
+  /* se após o "." tiver um espaço antes de new ex:".button .new" estou pedindo para procurar dentro da caixa button uma outra caixa de nome new, mas, se não haver estaço e a  separação for apenas por ponto ex:".button.new" , estou querendo que: a mes caixa exista button e new*/
+  display: inline-block;
+  /* limita o espaço apenas dentro do button (+ Nova Transação) não deixa percorrer toda linha vertical */
+  margin-bottom: .8rem;
+}
+
+.button.cancel {
+  color: var(--red);
+  border: 2px var(--red) solid;
+  border-radius: 0.25rem;
+
+  height: 50px;
+
+  display: flex;
+  /* o que eu faço para alinhar ao centro o botton cancelar ? resposta: abrir com display: flex e usar os dois itens abaixo */
+  align-items: center;
+  justify-content: center;
+
+  opacity: 0.6;
+}
+
+button.center:hover {
+  opacity: 1;
+}
+
 
 /* Header ====================================================== */
 header {
@@ -76,39 +158,60 @@ header h1#logo {
   font-weight: normal;
   font-size: 1rem;
   /* size é propriedade de tamanho de font */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* espaço entre os elementos */
 }
 
 .card p {
   font-size: 2rem;
-  line-height: 3rem; /* height é a separação da linha */
+  line-height: 3rem;
+  /* height é a separação da linha */
   margin-top: 1rem;
 }
 
 .card.total {
-  background: #49AA26;
-  color: white;
+  background: green;
+  color: rgb(244, 238, 238);
 }
 
 /*table==================================== */
-#data-table {
-  width: 100%; /* aqui está dizendo pro container pegar 100% do espaço */
-  border-spacing: 0 0.5rem; /* cotrola os eixos verticais e horizontais*/
-  color: #969cb3;
+#transaction {
+  display: block;
+  width: 100%;
+  /* aqui está dizendo pro container pegar 100% do espaço */
+  overflow-x: auto;
 }
 
-table thead tr th:first-child, 
+#data-table {
+  width: 100%;
+  border-spacing: 0 0.5rem;
+  /* cotrola os eixos verticais e horizontais*/
+  color: #969cb3;
+
+}
+
+table thead tr th:first-child,
 table thead tr td:first-child {
   border-radius: 0.25rem 0 0 0.25rem;
 }
 
+table thead tr th:last-child,
+table thead tr td:last-child {
+  border-radius: 0 0.25rem 0.25rem 0;
+}
+
 table thead th {
-  background:white;
+  background: white;
   font-weight: normal;
   padding: 1rem 2rem;
   text-align: left;
-  
+
 }
-table tbody tr { /* tr significa linha normal na tabela */
+
+table tbody tr {
+  /* tr significa linha normal na tabela */
   opacity: 0.7
 }
 
@@ -122,7 +225,7 @@ table tbody td {
 }
 
 td.description {
-  color:  var(--dark-blue);
+  color: var(--dark-blue);
 }
 
 td.income {
@@ -131,7 +234,94 @@ td.income {
 
 td.expense {
   color: #e92929;
+}
 
+/* Modal ====================================*/
+.modal-overlay {
+  width: 100%;
+  /* largura da caixa*/
+  height: 100%;
+  /* altura da caixa*/
+
+  background-color: rgba(0, 0, 0, 0, 7);
+  /* significado == rgba(red, green, blue, alpha); obs: alpha é a transparência */
+  position: fixed;
+  top: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  opacity: 0;
+  visibility: hidden;
+
+  z-index: 1;
+
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+
+
+}
+
+
+.modal {
+  background: #c7d5da;
+  padding: 2.4rem;
+  position: relative;
+
+  z-index: 1;
+  /* width: 90%; controlando a largura da caixa */
+  max-width: 500px;
+  /* máximo da largura 500px */
+
+
+}
+
+/*Form ================ Formulário Nova Transação ======= */
+#form {
+  /* uma div*/
+  max-width: 500px;
+  /* até o de máximo de 500px*/
+}
+
+#form h2 {
+  margin-top: 0;
+}
+
+/* #form form input { - especificidade (ser específico) aqui estou dizendo que: vou mecher no input que está dentro do outro form dentro do outro #input, sendo super específico com qual input estou trabalhando */
+input {
+  border: none;
+  /* tirar as bordas do form*/
+  border-radius: 0.2rem;
+  /* arredondar as bordas do input*/
+  padding: 0.8rem;
+  /* espaço (preenchimento) interno */
+  width: 100%;
+}
+
+.input-group {
+  margin-top: 00.8rem;
+
+}
+
+.input-group small {
+  opacity: 0.4;
+}
+
+.input-group.actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+}
+
+.input-group.actions .button,
+.input-group.actions button {
+  width: 48%;
+  /* que todos tenhão ums largura de 48% */
 }
 
 /*footer==================================== */
@@ -141,4 +331,24 @@ footer {
   padding: 4rem 0 2rem;
   color: var(--dark-blue);
   opacity: 0.6;
+}
+
+/* Responsive =================================
+tudo que tiver o arroba @ em inglês "at" na frente é Responsivi */
+@media (min-width: 800px) {
+  html {
+    font-size: 87.5%;
+  }
+
+  #balance {
+    display: grid;
+    /* com o display grid você consegue manipular as colunas e/ ou caixas no horizontal e vertical */
+    grid-template-columns: 1fr 1fr 1fr;
+    /* bem, aqui o grid está indicando frações (fr), porém o grid aceita fr, %, px, trabalhando os tamanhos das caixas individualmentes e tanbém tem a função repeat (repete) ao invés de colocar várias vezes a fração (fr) você pode abrir parentes e colocar por ex: grid-template-columns: (repeat 3, 1fr ); */
+    gap: 2rem;
+
+  }
+
+
+
 }

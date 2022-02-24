@@ -17,41 +17,63 @@
 
 <body>
   <header>
-    <h1 id="logo">dev.finance$</h1>
+    <!-- <h1="logo">dev.finance$ - aqui é uma logo marca que vai no maratona 1 alula  ser substituido pela img abaixo da aula 2 da maratona 1 -->
+    <img src="./assets/logo.svg" alt="Logo Dev Finance">
+    <!--alterar a logo imagem ( Dev.Finance$) usando os arquivos da pasta assets - obs o  atribulto src="./" vai me dizer em quê lugar do mundo está esse meu arquivo "assets" -->
   </header>
 
   <main class="container">
-    <!-- classe adicional na parte global que irá ser puchada pelo CSS -->
-
+    <!-- classe adicional na parte global que irá ser puchada pelo CSS-->
 
     <section id="balance">
-      <h2>Balanço</h2>
+      <h2 class="sr-only">Balanço</h2>
+      <!--alteração na aula 2 para tornar invisível os nomes do cabaçalho Balanço e Transações, porém, continuam visiveis para os screen readers (leitores de tela) - incluiu a class "Sr-only"-->
 
 
       <div class="card">
-        <h3>Entrada</h3>
+        <h3>
+
+          <span>
+            Entrada
+          </span> <!-- caixa span genérica pra manter o elemento em linha-->
+          <img src="./assets/income.svg" alt="image de entradas">
+
+        </h3>
         <p>R$ 5.000,00</p>
       </div>
 
       <div class="card">
-        <h3>Saída</h3>
+        <h3>
+          <span>
+            Saídas
+          </span> <!-- caixa span genérica pra manter o elemento em linha-->
+          <img src="./assets/expense.svg" alt="image de saídas">
+        </h3>
         <p>R$ 2.000,00</p>
       </div>
 
       <div class="card total">
-        <h3>total</h3>
+        <h3>
+          <span>
+            total
+          </span>
+          <img src="./assets/total.svg" alt="image de total">
+        </h3>
         <p>R$ 3.000,00</p>
       </div>
     </section>
-    
+
     <section id="transaction">
-      <h2>Transações</h2>
-      <table id="data-table"> 
+      <h2 class="sr-only">Transações</h2>
+      <!--onclick tudo que tem "on" (ativar) na frente em HTML indica que: está funcionando uma ideia de ativação de eventos, neste caso o evento é o click que ativa o Modal e para que isso funcione eu uso um ponto "." ex:(onclick="Modal.open()") segue orientação no Modal logo abaixo antes do rodapé no script-->
+      <a href="#" onclick="Modal.open()" class="button new">+ Nova Transação</a>
+      <table id="data-table">
         <thead>
           <tr>
             <th>Descrição</th>
             <th>Valor</th>
             <th>Data</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -59,27 +81,97 @@
             <td class="description">Luz</td>
             <td class="expense">- R$ 500,00</td>
             <!--expense saída de dinheiro gastos-->
-            <td class="date" >23/01/2021</td>
+            <td class="date">23/01/2021</td>
+            <td>
+              <img src="./assets/minus.svg" alt="Remover transação">
+            </td>
           </tr>
           <tr>
             <td class="description">Criação website</td>
             <td class="income"> R$ 5.000,00</td>
             <!--entrrada de dinheiro ganho-->
-            <td class="date" >23/01/2021</td>
+            <td class="date">23/01/2021</td>
+            <td>
+              <img src="./assets/minus.svg" alt="Remover transação">
+            </td>
           </tr>
           <tr>
             <td class="description">Internet</td>
             <td class="expense">- R$ 200,00</td>
-            <td class="date" >23/01/2021</td>
+            <td class="date">23/01/2021</td>
+            <td>
+              <img src="./assets/minus.svg" alt="Remover transação">
+            </td>
           </tr>
         </tbody>
       </table>
     </section>
   </main>
+
+  <div class="modal-overlay">
+    <div class="modal">
+      <div id="from">
+        <h2>Nova Transação</h2>
+        <form action="">
+          <div class="input-group">
+            <label class="sr-only" for="description">descrição</label>
+            <input type="text" id="description" name="description" placeholder="Descrição" />
+          </div>
+          <div class="input-group">
+            <label class="sr-only" for="amount">Valor</label>
+            <input type="number" step="0.01" id="amount" name="amount" placeholder="0,00" />
+            <small class="help"> Use o sinal - (negativo) para despesas e , (vírgula) para casas decimais</small>
+          </div>
+          <div class="input-group">
+            <label class="sr-only" for="date">Data</label>
+            <input type="date" id="date" name="date" />
+          </div>
+
+          <div class="input-group actions">
+            <a onclick="Modal.close()" href="#" class="button cancel">cancelar</a>
+            <!-- <button type="submit" class=""></button> obs: se houvesse mais de um button colocarias o type="submit", mas, como só há um button posso colocar só <butto/> como está abaixo. -->
+            <button>Salvar</button>
+
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  </div>
+
   <footer>
     <p>dev.finance$</p>
-
   </footer>
+
+  <script>
+    const Modal = {
+      open() {
+        // abrir modal
+        // adicionar a class active ao modal
+
+        /* alert('abrir o modal')  aqui o no a funcionalidade alert é colocado o argumento 'abrir o modal' para que quando clicarmos na aba + Nova Transação o navegador abra uma caixa de texto indicando a funcionalidade ok */
+
+        document.querySelector('.modal-overlay') /* aqui temos o document ou seja o "DOM", este é o modelo do meu HTML, tem acesso a todo o HTML então coloco um "." (ponto) e adiciono o ".querySelector", assim o document (DOM) está pedindo ao querySelector que pesquise (query) e selecione (selector) traga o .model-overlay de onde ele estiver dentro do HTML, encontrando ele vai devolver. O próximo passo é procurar na lista de classes (.classlist) como segue abaixo... */
+          .classList.add('active') /*aqui estou pedido para que a propriedade classlist (lista de classes) que também é um objeto e por isso eu consigo colocar um pontinho "." nela  que  add (adicionar) adicione  a class 'active'.*/
+
+
+      },
+
+      close() {
+        // fechar o Modal
+        // remover a clas active do 
+
+        document
+          .querySelector('.modal-overlay')
+          .classList
+          .remove('active')
+
+      }
+
+    }
+
+  </script>ß
+
 </body>
 
 </html>
